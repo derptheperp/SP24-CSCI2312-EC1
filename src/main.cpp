@@ -4,18 +4,22 @@
 
 int main()
 {
-    // std::array<int, BOARD> testBoard;
-    // for(int& types : testBoard)
-    // {
-    //     types = 1;
-    //     std::cout << types;
-    // }
 
-    // std::cout << "After looping false: " << testBoard.empty();
+    Board testBoard;
 
-    Board testBoard(10);
+    startMenu(testBoard);
 
+    std::cout << "\n\nTest game: \n";
     std::cout << testBoard;
+    std::cout << "\nEnter the value x,y in that specific format ";
+    std::cin >> testBoard;
+    std::cout << testBoard;
+    std::cin >> testBoard;
+    std::cout << testBoard;
+
+
+
+    //testing out how printing looks like in the terminal
     // for(int indx{0}; indx < 4; ++indx)
     // {
     //     for(int ndx{0}; ndx < 4 ; ++ndx)
@@ -34,6 +38,13 @@ int main()
     //     std::cout << std::endl;
 
     // }
+
+    //  - | - | -
+    //-------------
+    //  - | - | -
+    //-------------
+    //  - | - | -
+
 
 
 

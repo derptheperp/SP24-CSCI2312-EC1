@@ -29,40 +29,46 @@
 using std::string;
 
 
+
+
 class Board
 {
-
-    friend std::ostream& operator <<(std::ostream&, Board&);
-    friend std::istream& operator <<(std::istream&, Board&);
+    friend void startMenu(Board&);//boots the menu up and creates the board once the user has started the game
+    friend std::ostream& operator <<(std::ostream&, Board&);//displays the tic tac toe board
+    friend std::istream& operator >>(std::istream&, Board&);//takes an input and draws it on the board it also takes a number to differentiate
 
     private:
 
 
-
+    bool whosPlay{true};//a variable to decide who's play we are on, 1 for player 0 for computer
     string** gameBoard;//pointer to pointer string where tic tac toe is played on
     bool** inBoard;//pointer to pointer bool where we find out if a move was already played in the box
-    string player{"O"};
-    string cmptr{"X"};
-    int limitSize;//max
+    int limitSize;//max width and length of boards
 
-    void setBoards(int);//sets the gameBoard and limit board and limit size
+
+    string player{"O"};//the player's string
+    string cmptr{"X"};// the computer's string
+
+    void setBoards(int);//sets the gameBoard
 
 
 
     public:
 
     explicit Board();//default constructor sets the playBoard to 3
-    explicit Board(int);
 
     //getters
+    int getLimit();
     string** getBoard();
     bool** getInBoard();
-    int getLimit();
+    bool getWhosPlay();
+    string getPlayer();
+    string getCmptr();
 
 
     //game functions
-    void displayMenu();
-    void setPlayer();//sets the player to x or o and computer to the opposite
+    void setPlayers();//sets the player to x or o and computer to the opposite
+    void setGame();//sets the board size and starts the game
 
 
 
