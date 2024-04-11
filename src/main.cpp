@@ -14,6 +14,7 @@ int main()
     std::cout << "\nEnter the value x,y in that specific format ";
     std::cin >> testBoard;
     std::cout << testBoard;
+    std::cout << "\nEnter the value x,y in that specific format ";
     std::cin >> testBoard;
     std::cout << testBoard;
 

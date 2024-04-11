@@ -13,10 +13,10 @@ using std::string;
 
 
 //overloaded operators input and output
-std::ostream& operator <<(std::ostream& output, Board& gameBoard)//outputs the whole board in the usual tic tac toe format
+std::ostream& operator <<(std::ostream& output, Board& playBoard)//outputs the whole board in the usual tic tac toe format
 {
-    int prtSize = 1 + (4*gameBoard.getLimit());//find out how many dashes to put based on board size
-    int lmt = gameBoard.getLimit();//set a variable to limit in order to reduce the amount of getlimit calls
+    int prtSize = 1 + (4*playBoard.limitSize);//find out how many dashes to put based on board size
+    int lmt = playBoard.limitSize;//set a variable to limit in order to reduce the amount of getlimit calls
 
 
     for(int rows{0}; rows < lmt; ++rows)
@@ -28,7 +28,7 @@ std::ostream& operator <<(std::ostream& output, Board& gameBoard)//outputs the w
             {
                 output << " ";
             }
-            output << " " << (gameBoard.getBoard())[rows][columns] << " ";
+            output << " " << (playBoard.gameBoard)[rows][columns] << " ";
             if(columns != (lmt - 1))//put a | for each square except for the last one
             {
                 output << "|";
@@ -52,36 +52,35 @@ std::ostream& operator <<(std::ostream& output, Board& gameBoard)//outputs the w
 }
 
 
-std::istream& operator >>(std::istream& input, Board& gameBoard)
+std::istream& operator >>(std::istream& input, Board& playBoard)
 {
 
     int row{0};
     int column{0};
-    bool whosPlay = gameBoard.getWhosPlay();
-    string player = gameBoard.getPlayer();
-    string cmptr = gameBoard.getCmptr();
+    string player = playBoard.player;
+    string cmptr = playBoard.cmptr;
 
     input >> row;
     input.ignore();
     input >> column;
 
-    if((gameBoard.getInBoard())[row][column] == false)
+    if((playBoard.inBoard)[row][column] == false)
     {
-        if(whosPlay == true)
+        if(playBoard.whosPlay == true)
         {
-            (gameBoard.getBoard())[row][column] = player;
-            (gameBoard.getInBoard())[row][column] = true;
-            whosPlay = false;
+            (playBoard.gameBoard)[row][column] = player;
+            (playBoard.inBoard)[row][column] = true;
+            playBoard.whosPlay = false;
         }
         else
         {
-            (gameBoard.getBoard())[row][column] = cmptr;
-            (gameBoard.getInBoard())[row][column] = true;
-            whosPlay = true;
+            (playBoard.gameBoard)[row][column] = cmptr;
+            (playBoard.inBoard)[row][column] = true;
+            playBoard.whosPlay = true;
         }
     }
 
-    else if((gameBoard.getInBoard())[row][column] == true)
+    else if((playBoard.inBoard)[row][column] == true)
     {
         std::cout << "\nThat move is already played try again.";
     }
@@ -92,7 +91,7 @@ std::istream& operator >>(std::istream& input, Board& gameBoard)
 
 
 //friend operator to boot up the game
-void startMenu(Board& gameBoard)
+void startMenu(Board& playBoard)
 {
     int inNum{2};
     std::cout << std::endl << "+" << std::setfill('-') << std::setw(26) << "+";
@@ -102,7 +101,7 @@ void startMenu(Board& gameBoard)
     std::cin >> std::setw(2) >> inNum;
     if(inNum == 1)
     {
-        gameBoard.setGame();
+        playBoard.setGame();
     }
 
     else
@@ -124,37 +123,6 @@ Board::Board()//default constructor
 
 
 
-//standard getters returning pointers and ints
-string** Board::getBoard()
-{
-    return gameBoard;
-
-}
-
-bool** Board::getInBoard()
-{
-    return inBoard;
-}
-
-int Board::getLimit()
-{
-    return limitSize;
-}
-
-bool Board::getWhosPlay()
-{
-    return whosPlay;
-}
-
-string Board::getPlayer()
-{
-    return player;
-}
-
-string Board::getCmptr()
-{
-    return cmptr;
-}
 
 
 //gameFunctions

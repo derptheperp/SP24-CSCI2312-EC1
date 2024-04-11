@@ -30,7 +30,6 @@ using std::string;
 
 
 
-
 class Board
 {
     friend void startMenu(Board&);//boots the menu up and creates the board once the user has started the game
@@ -57,18 +56,15 @@ class Board
 
     explicit Board();//default constructor sets the playBoard to 3
 
-    //getters
-    int getLimit();
-    string** getBoard();
-    bool** getInBoard();
-    bool getWhosPlay();
-    string getPlayer();
-    string getCmptr();
-
 
     //game functions
     void setPlayers();//sets the player to x or o and computer to the opposite
     void setGame();//sets the board size and starts the game
+
+    bool isFull();//checking if the board is completely full
+    bool gameCheck();//will be called after a move and check if there is a win
+
+    void cmptrMove();//the computer plays a move randomly 
 
 
 
