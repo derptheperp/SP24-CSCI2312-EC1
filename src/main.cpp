@@ -11,12 +11,13 @@ int main()
 
     std::cout << "\n\nTest game: \n";
     std::cout << testBoard;
-    std::cout << "\nEnter the value x,y in that specific format ";
-    std::cin >> testBoard;
-    std::cout << testBoard;
-    std::cout << "\nEnter the value x,y in that specific format ";
-    std::cin >> testBoard;
-    std::cout << testBoard;
+
+    for()
+    {
+        std::cout << "\nEnter the value x,y in that specific format ";
+        std::cin >> testBoard;
+        std::cout << testBoard;
+    }
 
 
 

@@ -54,38 +54,52 @@ std::ostream& operator <<(std::ostream& output, Board& playBoard)//outputs the w
 
 std::istream& operator >>(std::istream& input, Board& playBoard)
 {
-
-    int row{0};
-    int column{0};
-    string player = playBoard.player;
-    string cmptr = playBoard.cmptr;
-
-    input >> row;
-    input.ignore();
-    input >> column;
-
-    if((playBoard.inBoard)[row][column] == false)
+    if(playBoard.ifFull() == false)
     {
-        if(playBoard.whosPlay == true)
+        int row{0};
+        int column{0};
+        string player = playBoard.player;
+        string cmptr = playBoard.cmptr;
+
+        input >> row;
+        input.ignore();
+        input >> column;
+
+        if((playBoard.inBoard)[row][column] == false)
         {
-            (playBoard.gameBoard)[row][column] = player;
-            (playBoard.inBoard)[row][column] = true;
-            playBoard.whosPlay = false;
+
+            if(playBoard.whosPlay == true)
+            {
+                (playBoard.gameBoard)[row][column] = player;
+                (playBoard.inBoard)[row][column] = true;
+                playBoard.whosPlay = false;
+                ++playBoard.inputCount;
+                playBoard.gameCheck();
+            }
+            else
+            {
+                (playBoard.gameBoard)[row][column] = cmptr;
+                (playBoard.inBoard)[row][column] = true;
+                playBoard.whosPlay = true;
+                ++playBoard.inputCount;
+                playBoard.gameCheck();
+            }
         }
-        else
+
+        else if((playBoard.inBoard)[row][column] == true)
         {
-            (playBoard.gameBoard)[row][column] = cmptr;
-            (playBoard.inBoard)[row][column] = true;
-            playBoard.whosPlay = true;
+            std::cout << "\nThat move is already played try again.";
         }
+
+        return input;
+
     }
 
-    else if((playBoard.inBoard)[row][column] == true)
+    else if(playBoard.isFull() == false)
     {
-        std::cout << "\nThat move is already played try again.";
+        "\n\nSorry board is full please check the board, input board, or input count"
     }
 
-    return input;
 
 }
 
@@ -101,7 +115,15 @@ void startMenu(Board& playBoard)
     std::cin >> std::setw(2) >> inNum;
     if(inNum == 1)
     {
-        playBoard.setGame();
+        if(isFull() == true)
+        {
+            std::cout << "\n\nsorry board is full please check your code. The board must have at least one free space :(\n\n";
+        }
+        else
+        {
+            playBoard.setGame();
+        }
+
     }
 
     else
@@ -112,20 +134,6 @@ void startMenu(Board& playBoard)
 
 }
 
-
-
-
-Board::Board()//default constructor
-{
-    setBoards(3);
-}
-
-
-
-
-
-
-//gameFunctions
 
 void Board::setBoards(int limitSize)//sets the limit board and gameboard and their sizes
 {
@@ -151,6 +159,19 @@ void Board::setBoards(int limitSize)//sets the limit board and gameboard and the
     }
 
 }
+
+
+Board::Board()//default constructor sets the playBoard to 3
+{
+    setBoards(3);
+    inputCount = 0;
+
+}
+
+
+
+//gameFunctions
+
 
 void Board::setGame()
 {
@@ -209,3 +230,149 @@ void Board::setPlayers()
 
     }
 }
+
+
+
+bool Board::isFull()//checking if the board is completely full
+{
+    int count{0}
+    for(int rows{0};  rows < limitSize; ++rows)
+    {
+        for(int columns{0}; columns < limitSize; ++columns)
+        {
+            if(inBoard[rows][colummns] == true)
+            {
+                ++count;
+            }
+        }
+    }
+    if(count == inputCount && inputCount == (limitSize*limitSize))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+
+
+}
+
+
+int Board::gameCheck()//will be called after a move and check if there is a win or tie
+{
+
+    int xCount{0};
+    int oCount{0};
+
+    for(int columns{0}; columns < limitSize; ++columns)//this loops throw the columns of the arrays
+    {
+        for(int rows{0}; rows < limitSize; ++rows)
+        {
+
+            if(gameBoard[rows][columns] == "X")//checks the symbol and adds to the counter
+            {
+                ++xCount
+            }
+
+            if(gameBoard[rows][columna] == "O")
+            {
+                ++oCount
+            }
+
+
+
+
+            if(rows%3 == 0 && rows!= 0)//after looping 3 times check both symbols and return a winner
+            {
+                if(xCount == 3)
+                {
+                    return 1
+                }
+
+                else if(oCount == 3)
+                {
+                    return 0
+                }
+
+                else
+                {
+                    xCount = 0;
+                    oCount = 0;
+                }
+
+
+            }
+        }
+
+    }
+
+    //restart counter
+    xCount = 0;
+    oCOunt = 0;
+
+
+    for(int rows{0}; rows < limitSize; ++rows)//loops through the rows now
+    {
+        for(int columns{0}; columns < limitSize; ++columns)
+        {
+
+            if(gameBoard[rows][columns] == "X")
+            {
+                ++xCount
+            }
+
+            if(gameBoard[rows][columna] == "O")
+            {
+                ++oCount
+            }
+
+
+
+
+            if(rows%3 == 0 && rows!= 0)
+            {
+                if(xCount == 3)
+                {
+                    return 1
+                }
+
+                else if(oCount == 3)
+                {
+                    return 0
+                }
+
+                else
+                {
+                    xCount = 0;
+                    oCount = 0;
+                }
+
+
+            }
+        }
+
+    }
+
+
+    for(int diag{0}; diag < limitSize; ++diag)//increases the limit of diag starting from 0 until it reaches the max and sweitches to start decreasing the limit again
+    {
+        if(gameBoard[diag][diag])
+    }
+
+
+
+
+
+
+
+}
+
+void Board::cmptrMove()//the computer plays a move randomly (THERE IS NO CHECK TO SEE IF IT IS ACTUALLY THE COMPUTER'S MOVE THAT IS DONE IN THE MAIN PROGRAM)
+{
+
+
+
+}
+
