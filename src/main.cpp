@@ -11,12 +11,36 @@ int main()
 
     std::cout << "\n\nTest game: \n";
     std::cout << testBoard;
-
-    for()
+    int check{0};
+   for(int ndx{0}; ndx <110 ; ++ndx)
     {
-        std::cout << "\nEnter the value x,y in that specific format ";
-        std::cin >> testBoard;
-        std::cout << testBoard;
+        check = testBoard.gameCheck();
+        switch(check)
+        {
+            case 1:
+            std::cout << "\n\nX IS THE WINNER\n\n";
+            return 0;
+
+
+
+            case 2:
+            std::cout << "\n\nO IS THE WINNER\n\n";
+            return 0;
+
+
+            case 3:
+            std::cout << "\n\nIT IS A TIE :(\n\n";
+            return 0;
+
+
+            default:
+
+            std::cout << "\nEnter the value x,y in that specific format ";
+            std::cin >> testBoard;
+            std::cout << testBoard;
+
+        }
+
     }
 
 

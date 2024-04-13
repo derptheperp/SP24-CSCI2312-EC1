@@ -1,3 +1,19 @@
+/*******************************
+ * FileName: Board.cpp
+ * Author: Osvaldo Borjas
+ * Created: 4/8/24
+ * Updates:
+ *Last Updated(4/11/2024)
+ *
+ *
+ *
+ *
+ *
+ *
+********************************/
+
+
+
 #include "Board.h"
 
 #include <array>
@@ -54,7 +70,7 @@ std::ostream& operator <<(std::ostream& output, Board& playBoard)//outputs the w
 
 std::istream& operator >>(std::istream& input, Board& playBoard)
 {
-    if(playBoard.ifFull() == false)
+    if(playBoard.isFull() == false)
     {
         int row{0};
         int column{0};
@@ -64,6 +80,16 @@ std::istream& operator >>(std::istream& input, Board& playBoard)
         input >> row;
         input.ignore();
         input >> column;
+        if(row >= playBoard.limitSize)
+        {
+            std::cout << "\n\nThat is out of bounds please try again\n\n";
+            return input;
+        }
+        else if(column >= playBoard.limitSize)
+        {
+            std::cout << "\n\nThat is out of bouns please try again\n\n";
+            return input;
+        }
 
         if((playBoard.inBoard)[row][column] == false)
         {
@@ -88,7 +114,7 @@ std::istream& operator >>(std::istream& input, Board& playBoard)
 
         else if((playBoard.inBoard)[row][column] == true)
         {
-            std::cout << "\nThat move is already played try again.";
+            std::cout << "\nThat move is already played try again.\n";
         }
 
         return input;
@@ -97,7 +123,7 @@ std::istream& operator >>(std::istream& input, Board& playBoard)
 
     else if(playBoard.isFull() == false)
     {
-        "\n\nSorry board is full please check the board, input board, or input count"
+        "\n\nSorry board is full please check the board, input board, or input count\n\n";
     }
 
 
@@ -115,14 +141,10 @@ void startMenu(Board& playBoard)
     std::cin >> std::setw(2) >> inNum;
     if(inNum == 1)
     {
-        if(isFull() == true)
-        {
-            std::cout << "\n\nsorry board is full please check your code. The board must have at least one free space :(\n\n";
-        }
-        else
-        {
-            playBoard.setGame();
-        }
+
+
+        playBoard.setGame();
+
 
     }
 
@@ -235,12 +257,12 @@ void Board::setPlayers()
 
 bool Board::isFull()//checking if the board is completely full
 {
-    int count{0}
+    int count{0};
     for(int rows{0};  rows < limitSize; ++rows)
     {
         for(int columns{0}; columns < limitSize; ++columns)
         {
-            if(inBoard[rows][colummns] == true)
+            if(inBoard[rows][columns] == true)
             {
                 ++count;
             }
@@ -260,46 +282,53 @@ bool Board::isFull()//checking if the board is completely full
 }
 
 
-int Board::gameCheck()//will be called after a move and check if there is a win or tie
+int Board::gameCheck()//will be called after a move and check if there is a win or tie 1: is x the winner 2: is o the winner and 3 is a tie
 {
-
     int xCount{0};
     int oCount{0};
+    int count{0};
+
 
     for(int columns{0}; columns < limitSize; ++columns)//this loops throw the columns of the arrays
     {
+
+        xCount = 0;
+        oCount = 0;
+        count = 0;
+
         for(int rows{0}; rows < limitSize; ++rows)
         {
 
             if(gameBoard[rows][columns] == "X")//checks the symbol and adds to the counter
             {
-                ++xCount
+                ++xCount;
             }
 
-            if(gameBoard[rows][columna] == "O")
+            if(gameBoard[rows][columns] == "O")
             {
-                ++oCount
+                ++oCount;
             }
 
 
 
 
-            if(rows%3 == 0 && rows!= 0)//after looping 3 times check both symbols and return a winner
+            if(count%3 == 0 && count != 0)//after looping 3 times check both symbols and return a winner
             {
                 if(xCount == 3)
                 {
-                    return 1
+                    return 1;
                 }
 
                 else if(oCount == 3)
                 {
-                    return 0
+                    return 2;
                 }
 
                 else
                 {
                     xCount = 0;
                     oCount = 0;
+                    count = 0;
                 }
 
 
@@ -309,44 +338,102 @@ int Board::gameCheck()//will be called after a move and check if there is a win 
     }
 
     //restart counter
-    xCount = 0;
-    oCOunt = 0;
-
 
     for(int rows{0}; rows < limitSize; ++rows)//loops through the rows now
     {
+        xCount = 0;
+        oCount = 0;
+        count = 0;
+
+
         for(int columns{0}; columns < limitSize; ++columns)
         {
 
             if(gameBoard[rows][columns] == "X")
             {
-                ++xCount
+                ++xCount;
             }
 
-            if(gameBoard[rows][columna] == "O")
+            if(gameBoard[rows][columns] == "O")
             {
-                ++oCount
+                ++oCount;
             }
 
 
 
 
-            if(rows%3 == 0 && rows!= 0)
+            if(count%3 == 0 && count != 0)
             {
                 if(xCount == 3)
                 {
-                    return 1
+                    return 1;
                 }
 
                 else if(oCount == 3)
                 {
-                    return 0
+                    return 2;
                 }
 
                 else
                 {
                     xCount = 0;
                     oCount = 0;
+                    count = 0;
+                }
+
+
+            }
+        }
+
+
+
+
+
+    }
+
+
+
+
+    for(int columns{limitSize-1}; columns >= 0; --columns)//this loops throw the columns of the arrays
+    {
+
+        xCount = 0;
+        oCount = 0;
+        count = 0;
+
+        for(int rows{limitSize-1}; rows >= 0; --rows)
+        {
+
+            if(gameBoard[rows][columns] == "X")//checks the symbol and adds to the counter
+            {
+                ++xCount;
+            }
+
+            if(gameBoard[rows][columns] == "O")
+            {
+                ++oCount;
+            }
+
+
+
+
+            if(count%3 == 0 && count != 0)//after looping 3 times check both symbols and return a winner
+            {
+                if(xCount == 3)
+                {
+                    return 1;
+                }
+
+                else if(oCount == 3)
+                {
+                    return 2;
+                }
+
+                else
+                {
+                    xCount = 0;
+                    oCount = 0;
+                    count = 0;
                 }
 
 
@@ -355,10 +442,68 @@ int Board::gameCheck()//will be called after a move and check if there is a win 
 
     }
 
+    //restart counter
 
-    for(int diag{0}; diag < limitSize; ++diag)//increases the limit of diag starting from 0 until it reaches the max and sweitches to start decreasing the limit again
+    for(int rows{limitSize-1}; rows < limitSize; --rows)//loops through the rows now
     {
-        if(gameBoard[diag][diag])
+        xCount = 0;
+        oCount = 0;
+        count = 0;
+
+
+        for(int columns{limitSize-1}; columns >= limitSize; --columns)
+        {
+
+            if(gameBoard[rows][columns] == "X")
+            {
+                ++xCount;
+            }
+
+            if(gameBoard[rows][columns] == "O")
+            {
+                ++oCount;
+            }
+
+
+
+
+            if(count%3 == 0 && count != 0)
+            {
+                if(xCount == 3)
+                {
+                    return 1;
+                }
+
+                else if(oCount == 3)
+                {
+                    return 2;
+                }
+
+                else
+                {
+                    xCount = 0;
+                    oCount = 0;
+                    count = 0;
+                }
+
+
+            }
+        }
+
+
+
+
+
+    }
+
+    if(isFull() == true && xCount != 3 && oCount != 3)
+    {
+        return 3;
+    }
+
+    else
+    {
+        return 0;
     }
 
 

@@ -2,6 +2,7 @@
 #define BOARD_H
 /*******************************
  * FileName: Board.h
+ * Author: Osvaldo Borjas
  * Created: 4/8/24
  * Updates:
  * (4/10/24) after some struggle to create a 2d array
@@ -10,7 +11,7 @@
  * 2d arrays are an array of arrays so you can
  * create the same by having an established pointer to an array of type int
  * and then filling that array with other pointers to an array of type int.
- *
+ *Last Updated(4/11/2024)
  *
  *
  *
