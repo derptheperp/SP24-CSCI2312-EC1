@@ -80,6 +80,7 @@ std::istream& operator >>(std::istream& input, Board& playBoard)
         input >> row;
         input.ignore();
         input >> column;
+
         if(row >= playBoard.limitSize)
         {
             std::cout << "\n\nThat is out of bounds please try again\n\n";
@@ -100,7 +101,7 @@ std::istream& operator >>(std::istream& input, Board& playBoard)
                 (playBoard.inBoard)[row][column] = true;
                 playBoard.whosPlay = false;
                 ++playBoard.inputCount;
-                playBoard.gameCheck();
+
             }
             else
             {
@@ -108,7 +109,7 @@ std::istream& operator >>(std::istream& input, Board& playBoard)
                 (playBoard.inBoard)[row][column] = true;
                 playBoard.whosPlay = true;
                 ++playBoard.inputCount;
-                playBoard.gameCheck();
+
             }
         }
 
@@ -124,6 +125,7 @@ std::istream& operator >>(std::istream& input, Board& playBoard)
     else if(playBoard.isFull() == false)
     {
         "\n\nSorry board is full please check the board, input board, or input count\n\n";
+        return input;
     }
 
 

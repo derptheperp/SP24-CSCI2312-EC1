@@ -12,7 +12,7 @@ int main()
     std::cout << "\n\nTest game: \n";
     std::cout << testBoard;
     int check{0};
-   for(int ndx{0}; ndx <110 ; ++ndx)
+   for(int ndx{0}; ndx < 9 ; ++ndx)
     {
         check = testBoard.gameCheck();
         switch(check)
